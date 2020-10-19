@@ -1,4 +1,20 @@
+Vue.component('product-details', {
+  // Требования к входным параметрам, к-ые принимает Компонент
+  props: {
+    details: {
+      type: Array,
+      required: true
+    }
+  },
+  template: `
+    <ul>
+      <li v-for="detail in details">{{ detail }}</li>
+    </ul>
+  `
+})
+
 Vue.component('product', {
+  // Требования к входным параметрам, к-ые принимает Компонент
   props: {
     premium: {
       type: Boolean,
@@ -17,10 +33,8 @@ Vue.component('product', {
             <p v-if="inStock">In Stock</p>
             <p v-else>Out of Stock</p>
             <p>Shipping: {{ shipping }}</p>
-  
-            <ul>
-              <li v-for="detail in details">{{ detail }}</li>
-            </ul>
+           
+            <product-details :details="detailsOfproduct"></product-details>
   
             <div class="color-box"
                  v-for="(variant, index) in variants" 
@@ -40,6 +54,7 @@ Vue.component('product', {
          </div> 
 
           <div>
+          <!-- В компоненте product выводим отзывы о товаре -->
               <p v-if="!reviews.length">There are no reviews yet.</p>
               <ul v-else>
                   <p>Middle mark is {{middle}} based on {{this.reviews.length}} ratings</p>
@@ -63,7 +78,7 @@ Vue.component('product', {
       product: 'Sneakers',
       brand: 'Vue Sneakers',
       selectedVariant: 0,
-      details: ['55% polyester', '45% synthetic', '5% textile'],
+      detailsOfproduct: ['55% polyester', '45% synthetic', '5% textile'],
       variants: [
         {
           variantId: 2234,
@@ -213,7 +228,7 @@ Vue.component('product-review', {
 var app = new Vue({
   el: '#app',
   data: {
-    premium: true,
+    premiumValue: true,
     cart: []
   },
   methods: {
